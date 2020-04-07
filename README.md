@@ -1,7 +1,7 @@
 # spring-boot-operator
 快速体验
 ```shell script
-kubectl apply -f https://github.com/goudai/spring-boot-operator/blob/master/deployment.yaml
+kubectl apply -f https://raw.githubusercontent.com/goudai/spring-boot-operator/master/deployment.yaml
 ```
 等待启动完成
 ```shell script
@@ -21,7 +21,7 @@ spec:
 ```
 部署
 ```shell script
-kubectl apply -f https://github.com/goudai/spring-boot-operator/blob/master/demo1.yaml
+kubectl apply -f https://raw.githubusercontent.com/goudai/spring-boot-operator/master/demo1.yaml
 ```
 
 
