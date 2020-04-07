@@ -29,7 +29,7 @@ jobs:
           prerelease: false
       - name: release
         run: |
-          echo ${{create_release.outputs.tag_name}}
-          echo ${{create_release.outputs}}
-          echo ${{create_release.outputs.github.ref}}
+#          echo ${{create_release.outputs.tag_name}}
+#          echo ${{create_release.outputs}}
+#          echo ${{create_release.outputs.github.ref}}
           make docker-build docker-push IMG=freemanliu/spring-boot-operator-controller:${tag_name}
