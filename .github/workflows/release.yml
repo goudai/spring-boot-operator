@@ -13,18 +13,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
-      - name: Extract tag name
-        id: tag
-        uses: actions/github-script@0.2.0
+      - name: Create Release
+        id: create_release
+        uses: monkeyWie/create-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            return context.payload.ref.replace(/refs/tags/, '');
-      - name: Echo
-        run: echo "tag is ${{ steps.tag.outputs.result }}"
-      - name: release
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Release To Docker
         run: |
-          echo ${{ steps.create_release.outputs.tag_name }}
-          echo ${{ steps.create_release.outputs }}
-          echo ${{ steps.create_release.outputs.github.ref }}
-          make docker-build docker-push IMG=freemanliu/spring-boot-operator-controller:${{ steps.tag.outputs.result }}
+          make docker-build docker-push IMG=freemanliu/spring-boot-operator-controller:${{ steps.create_release.outputs.tag }}
