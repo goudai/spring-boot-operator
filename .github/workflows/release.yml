@@ -13,23 +13,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      - name: Extract tag name
+        id: tag
+        uses: actions/github-script@latest
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: false
-          prerelease: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            return context.payload.ref.replace(/\/refs\/tags\//, '');
+      - name: Echo
+        run: echo "tag is ${{ steps.tag.outputs.result }}"
       - name: release
         run: |
           echo ${{ steps.create_release.outputs.tag_name }}
           echo ${{ steps.create_release.outputs }}
           echo ${{ steps.create_release.outputs.github.ref }}
-          make docker-build docker-push IMG=freemanliu/spring-boot-operator-controller:${tag_name}
+          make docker-build docker-push IMG=freemanliu/spring-boot-operator-controller:${{ steps.tag.outputs.result }}
