@@ -8,6 +8,7 @@ kubectl apply -f https://raw.githubusercontent.com/goudai/spring-boot-operator/m
 kubectl get po -A | grep spring-boot-operator
 ```
 编写第一个 spring-boot demo
+Demo Github地址：https://github.com/goudai/operator-demo
 ```yaml
 apiVersion: springboot.qingmu.io/v1alpha1
 kind: SpringBootApplication
