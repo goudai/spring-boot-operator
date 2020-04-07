@@ -25,4 +25,4 @@ jobs:
           prerelease: false
       - name: Release To Docker
         run: |
-          make docker-build docker-push IMG=freemanliu/spring-boot-operator-controller:${{ steps.create_release.outputs.tag }}
+          make docker-build IMG=freemanliu/spring-boot-operator-controller:${{ steps.create_release.outputs.tag }}
