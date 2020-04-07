@@ -29,8 +29,8 @@ type configureSpec struct {
 	ImagePullSecrets []string
 	// failure-domain.beta.kubernetes.io/zone
 	NodeAffinityKey string
-	// In
-	NodeAffinityValues []string
 	// "cn-g", "cn-h", "cn-i"
+	NodeAffinityValues []string
+	// In
 	NodeAffinityOperator string
 }
