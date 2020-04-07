@@ -3,7 +3,7 @@
 ```shell script
 kubectl apply -f https://raw.githubusercontent.com/goudai/spring-boot-operator/master/manifests/deployment.yaml
 ```
-对于拉取docker.io 很慢的可以使用阿里云镜像仓库
+对于拉取Docker.io很慢的同学可以使用阿里云镜像仓库
 ```shell script
 kubectl apply -f https://raw.githubusercontent.com/goudai/spring-boot-operator/master/manifests/deployment_ali.yaml
 ```
