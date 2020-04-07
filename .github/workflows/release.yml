@@ -27,4 +27,9 @@ jobs:
             - Second Change
           draft: false
           prerelease: false
-        run: make docker-build docker-push IMG=freemanliu/spring-boot-operator-controller:${tag_name}
+      - name: release
+        run: |
+          echo ${{create_release.outputs.tag_name}}
+          echo ${{create_release.outputs}}
+          echo ${{create_release.outputs.github.ref}}
+          make docker-build docker-push IMG=freemanliu/spring-boot-operator-controller:${tag_name}
