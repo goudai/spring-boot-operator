@@ -7,12 +7,9 @@ on:
     branches: [ master ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@master
     - name: Build the Docker image
-      run: make docker-build IMG=freemanliu/spring-boot-operator-controller:${{ secrets.GITHUB_SHA }}
+      run: make docker-build IMG=freemanliu/spring-boot-operator-controller:${GITHUB_SHA:0:7}
