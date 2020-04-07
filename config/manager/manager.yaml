@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller-manager
+  namespace: system
+  labels:
+    control-plane: controller-manager
+spec:
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        control-plane: controller-manager
+    spec:
+      containers:
+      - command:
+        - /manager
+        args:
+        - --enable-leader-election
+        image: controller:latest
+        name: manager
+        resources:
+          limits:
+            cpu: 100m
+            memory: 30Mi
+          requests:
+            cpu: 100m
+            memory: 20Mi
+        # 一下设置均为每个spring boot的通用配置
+        env:
+          # 设置自己的私有仓库地址，此处很重要
+          # 设置该值之后，pod运行时的image计算方式 = IMAGE_REPOSITORY + "/" + metadata.name +":" + springBoot.version
+          - name: IMAGE_REPOSITORY
+            value: registry.cn-shanghai.aliyuncs.com/qingmuio
+          - name: REQUEST_CPU
+            value: 50m
+          - name: LIMIT_CPU
+            value: ""
+          - name: REQUEST_MEMORY
+            value: 500Mi
+          - name: LIMIT_MEMORY
+            value: 500Mi
+          - name: READINESS_PATH
+            value: /actuator/health
+          - name: LIVENESS_PATH
+            value: /actuator/health
+          - name: SHUTDOWN_PATH
+            value: /spring/shutdown
+          - name: REPLICAS
+            value: "3"
+          - name: HOST_LOG_PATH
+            value: /var/applog
+          # using , split,(my_secret1,my_secret2)
+          - name: IMAGE_PULL_SECRETS
+            value: ""
+          # spring app port 8080 by default
+          - name: SPRING_BOOT_DEFAULT_PORT
+            value: "8080"
+          # node affinity setting
+          # node亲和性设置
+          # e.g failure-domain.beta.kubernetes.io/zone
+          - name: NODE_AFFINITY_KEY
+            value: ""
+          # e.g In
+          - name: NODE_AFFINITY_OPERATOR
+            value: ""
+          # e.g "cn-g", "cn-h", "cn-i"
+          - name: NODE_AFFINITY_VALUES
+            value: ""
+          # k=v,k1=v2
+          # e.g  EUREKA_SERVER=http://eureka1:8761/eureka/,CI_COMPILER=8
+          - name: ENV
+            value: ""
+
+      terminationGracePeriodSeconds: 10

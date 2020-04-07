@@ -1,0 +1,149 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: springbootapplications.springboot.qingmu.io
+spec:
+  group: springboot.qingmu.io
+  names:
+    kind: SpringBootApplication
+    listKind: SpringBootApplicationList
+    plural: springbootapplications
+    singular: springbootapplication
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      description: SpringBootApplication is the Schema for the springbootapplications
+        API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: SpringBootApplicationSpec defines the desired state of SpringBootApplication
+          properties:
+            springBoot:
+              description: The spring boot body
+              properties:
+                clusterIp:
+                  description: The spring boot application service ip (kube-proxy
+                    cluster ip). "" by default
+                  type: string
+                env:
+                  additionalProperties:
+                    type: string
+                  description: The spring boot application env.
+                  type: object
+                image:
+                  description: The spring boot application Image If the value is empty,using
+                    fmt.Sprintf("%s/%s:%s", config.ImageRepository, Name, s.Version)
+                    by default
+                  type: string
+                imagePullSecrets:
+                  description: The pull image secrets.
+                  items:
+                    type: string
+                  type: array
+                nodeAffinity:
+                  properties:
+                    key:
+                      type: string
+                    operator:
+                      type: string
+                    values:
+                      items:
+                        type: string
+                      type: array
+                  required:
+                  - key
+                  - operator
+                  - values
+                  type: object
+                path:
+                  description: The spring boot application path Liveness and Readiness  is
+                    '/actuator/health' by  default HostLog is '/var/applog' by default
+                    Shutdown is '/spring/shutdown' by default
+                  properties:
+                    hostLog:
+                      description: HostLog is '/var/applog' by default
+                      type: string
+                    liveness:
+                      description: Liveness  is '/actuator/health' by  default
+                      type: string
+                    readiness:
+                      description: ' Readiness  is ''/actuator/health'' by  default'
+                      type: string
+                    shutdown:
+                      description: Shutdown is '/spring/shutdown' by default
+                      type: string
+                  type: object
+                port:
+                  description: The spring boot application Port
+                  format: int32
+                  type: integer
+                replicas:
+                  description: The spring boot application replicas. 3 by default
+                  format: int32
+                  type: integer
+                resource:
+                  description: The spring boot application Resource(Cpu,Memory) 2Gi
+                    Request Memory by default. 2Gi Limit Memory by default. 100m Request
+                    Cpu by default. Un limit Cpu by default.
+                  properties:
+                    cpu:
+                      description: Cpu resource
+                      properties:
+                        limit:
+                          description: Un limit Cpu by default.
+                          type: string
+                        request:
+                          description: 100m Request Cpu by default.
+                          type: string
+                      type: object
+                    memory:
+                      description: Memory resource
+                      properties:
+                        limit:
+                          description: 2Gi Limit Memory by default.
+                          type: string
+                        request:
+                          description: 2Gi Request Memory by default.
+                          type: string
+                      type: object
+                  type: object
+                version:
+                  description: The spring boot application image version. this is
+                    required
+                  type: string
+              type: object
+          required:
+          - springBoot
+          type: object
+        status:
+          description: SpringBootApplicationStatus defines the observed state of SpringBootApplication
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

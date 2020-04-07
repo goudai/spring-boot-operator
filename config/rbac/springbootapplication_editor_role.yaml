@@ -1,0 +1,24 @@
+# permissions for end users to edit springbootapplications.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: springbootapplication-editor-role
+rules:
+- apiGroups:
+  - springboot.qingmu.io
+  resources:
+  - springbootapplications
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - springboot.qingmu.io
+  resources:
+  - springbootapplications/status
+  verbs:
+  - get

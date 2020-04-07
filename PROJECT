@@ -1,0 +1,7 @@
+domain: qingmu.io
+repo: spring-boot-operator
+resources:
+- group: springboot
+  kind: SpringBootApplication
+  version: v1alpha1
+version: "2"

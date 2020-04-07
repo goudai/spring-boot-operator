@@ -1,0 +1,10 @@
+apiVersion: springboot.qingmu.io/v1alpha1
+kind: SpringBootApplication
+metadata:
+  name: operator-demo
+  namespace: default
+spec:
+  springBoot:
+    version: v1.0.0
+    replicas: 1
+

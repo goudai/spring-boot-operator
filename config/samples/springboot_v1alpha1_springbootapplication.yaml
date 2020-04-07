@@ -1,0 +1,11 @@
+apiVersion: springboot.qingmu.io/v1alpha1
+kind: SpringBootApplication
+metadata:
+  name: operator-demo
+spec:
+  springBoot:
+    version: v1.0.0
+    replicas: 1
+
+
+#registry.cn-shanghai.aliyuncs.com/spring-boot-operator/operator-demo:v1
