@@ -30,4 +30,8 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker login -u ${{ secrets.ALI_DOCKER_USERNAME }} -p ${{ secrets.ALI_DOCKER_PASSWORD }}  ${{secrets.ALI_REGISTRY}}
           docker push freemanliu/spring-boot-operator-controller:${{ steps.create_release.outputs.tag }}
+          docker tag freemanliu/spring-boot-operator-controller:${{ steps.create_release.outputs.tag }} freemanliu/spring-boot-operator-controller:latest
+          docker push freemanliu/spring-boot-operator-controller:latest
           docker push registry.cn-shanghai.aliyuncs.com/qingmuio/spring-boot-operator-controller:${{ steps.create_release.outputs.tag }}
+          docker tag registry.cn-shanghai.aliyuncs.com/qingmuio/spring-boot-operator-controller:${{ steps.create_release.outputs.tag }} registry.cn-shanghai.aliyuncs.com/qingmuio/spring-boot-operator-controller:latest
+          docker push registry.cn-shanghai.aliyuncs.com/qingmuio/spring-boot-operator-controller:latest

@@ -27,8 +27,10 @@ spec:
     imagePullSecrets: #可以不设置 如果你使用的都是公开仓库的话, 私有仓库请设置该值，
       - aliyun-docker-registry-secret
     env: #可以不设置 环境变量
-      - name: EUREKA_SERVERS
-        value: http://eureka1:8761/eureka/,http://eureka2:8761/eureka/,http://eureka3:8761/eureka/
+      - name: EUREKA_SERVER
+        value: http://eureka1:888/eureka/
+      - name: k
+        value: v2
     nodeAffinity: #可以不设置 节点亲和 这里演示的是尽量将pod分散到 i h g 三个可用区，默认设置了pod反亲和
       key: "failure-domain.beta.kubernetes.io/zone"
       operator: "In"

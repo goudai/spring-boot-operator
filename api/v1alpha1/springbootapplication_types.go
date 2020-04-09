@@ -175,13 +175,18 @@ func (s *SpringBoot) Check(Name string) (*SpringBoot, error) {
 	if s.Env == nil {
 		s.Env = []v1.EnvVar{}
 	}
+	envStringMap := make(map[string]string)
+	for _, v := range s.Env {
+		envStringMap[v.Name] = v.Value
+	}
 	if len(config.Env) > 0 {
-
 		for k, v := range config.Env {
-			s.Env = append(s.Env, v1.EnvVar{
-				Name:  k,
-				Value: v,
-			})
+			if _, ok := envStringMap[k]; !ok {
+				s.Env = append(s.Env, v1.EnvVar{
+					Name:  k,
+					Value: v,
+				})
+			}
 		}
 	}
 

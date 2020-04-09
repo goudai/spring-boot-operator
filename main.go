@@ -192,12 +192,13 @@ func onStart() {
 		config.ImagePullSecrets = strings.Split(imagePullSecrets, ",")
 	}
 
-	Env := os.Getenv("Env")
+	Env := os.Getenv("SPRING_BOOT_ENV")
 	if Env == "" {
 		setupLog.Info("Not set env Env")
 	} else {
+		config.Env = make(map[string]string)
 		setupLog.Info("Get user set env value ", "Env", Env)
-		for _, kv := range strings.Split(imagePullSecrets, ",") {
+		for _, kv := range strings.Split(Env, ";") {
 			kyarray := strings.Split(kv, "=")
 			if len(kyarray) == 2 {
 				config.Env[kyarray[0]] = kyarray[1]
