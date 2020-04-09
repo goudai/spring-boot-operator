@@ -5,9 +5,10 @@ metadata:
   namespace: default
 spec:
   springBoot:
-    # 注意： 一下可以不设置的属性默认使用Opertor中这是的环境变量
+    # 注意： 可以不设置的属性，默认使用Operator中设置的通用值
+
     # image 可以不设置，如果不设置默认使用 IMAGE_REPOSITORY+"/"+mate.name+spec.springBoot.version
-    image: registry.cn-shanghai.aliyuncs.com/qingmuio/operator-demo/operator-demo:v1.0.0
+    image: registry.cn-shanghai.aliyuncs.com/qingmuio/operator-demo:v1.0.0
     clusterIp: "" # 集群ip 可以不设置
     version: v1.0.0 # 必须设置，镜像的版本号
     replicas: 1 # 可以不设置 副本数量 默认为 3
@@ -23,8 +24,8 @@ spec:
       readiness: /actuator/health #可以不设置
       hostLog: /var/applog #可以不设置
       shutdown: /spring/shutdown #可以不设置
-    #imagePullSecrets: #可以不设置 如果你使用的都是公开仓库的话,如果设置了请确保该secret存在
-    #  - aliyun-docker-registry-secret
+    imagePullSecrets: #可以不设置 如果你使用的都是公开仓库的话, 私有仓库请设置该值，
+      - aliyun-docker-registry-secret
     env: #可以不设置 环境变量
       - name: EUREKA_SERVERS
         value: http://eureka1:8761/eureka/,http://eureka2:8761/eureka/,http://eureka3:8761/eureka/
