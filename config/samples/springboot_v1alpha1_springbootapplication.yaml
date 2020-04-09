@@ -2,10 +2,38 @@ apiVersion: springboot.qingmu.io/v1alpha1
 kind: SpringBootApplication
 metadata:
   name: operator-demo
+  namespace: default
 spec:
   springBoot:
-    version: v1.0.0
-    replicas: 1
-
+    # 注意： 一下可以不设置的属性默认使用Opertor中这是的环境变量
+    # image 可以不设置，如果不设置默认使用 IMAGE_REPOSITORY+"/"+mate.name+spec.springBoot.version
+    image: registry.cn-shanghai.aliyuncs.com/qingmuio/operator-demo/operator-demo:v1.0.0
+    clusterIp: "" # 集群ip 可以不设置
+    version: v1.0.0 # 必须设置，镜像的版本号
+    replicas: 1 # 可以不设置 副本数量 默认为 3
+    resource:
+      cpu:
+        request: 50m # 可以不设置 请求的cpu大小，不建议设置过大
+        limit: "" # 可以不设置 最大cpu使用 java应用建议不设置限制，限制不合理会导致启动很慢
+      memory:
+        request: 1Gi # 可以不设置 请求的memory大小
+        limit: 1Gi # 可以不设置 限制最大的内存使用，超出将被oom kill
+    path:
+      liveness: /actuator/health #可以不设置
+      readiness: /actuator/health #可以不设置
+      hostLog: /var/applog #可以不设置
+      shutdown: /spring/shutdown #可以不设置
+    #imagePullSecrets: #可以不设置 如果你使用的都是公开仓库的话,如果设置了请确保该secret存在
+    #  - aliyun-docker-registry-secret
+    env: #可以不设置 环境变量
+      - name: EUREKA_SERVERS
+        value: http://eureka1:8761/eureka/,http://eureka2:8761/eureka/,http://eureka3:8761/eureka/
+    nodeAffinity: #可以不设置 节点亲和 这里演示的是尽量将pod分散到 i h g 三个可用区，默认设置了pod反亲和
+      key: "failure-domain.beta.kubernetes.io/zone"
+      operator: "In"
+      values:
+        - "cn-i"
+        - "cn-h"
+        - "cn-g"
 
 #registry.cn-shanghai.aliyuncs.com/spring-boot-operator/operator-demo:v1

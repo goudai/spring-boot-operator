@@ -21,6 +21,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"k8s.io/api/core/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -118,9 +119,9 @@ func (in *SpringBoot) DeepCopyInto(out *SpringBoot) {
 	}
 	if in.Env != nil {
 		in, out := &in.Env, &out.Env
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
+		*out = make([]v1.EnvVar, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	in.NodeAffinity.DeepCopyInto(&out.NodeAffinity)

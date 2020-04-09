@@ -18,6 +18,7 @@ package v1alpha1
 
 import (
 	"fmt"
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"spring-boot-operator/global"
 )
@@ -60,7 +61,7 @@ type SpringBoot struct {
 	// The pull image secrets.
 	ImagePullSecrets []string `json:"imagePullSecrets,omitempty"`
 	// The spring boot application env.
-	Env map[string]string `json:"env,omitempty"`
+	Env []v1.EnvVar `json:"env,omitempty"`
 
 	NodeAffinity NodeAffinitySpec `json:"nodeAffinity,omitempty"`
 }
@@ -171,9 +172,16 @@ func (s *SpringBoot) Check(Name string) (*SpringBoot, error) {
 	if s.ClusterIp == "" {
 		//s.ClusterIp = "None"
 	}
+	if s.Env == nil {
+		s.Env = []v1.EnvVar{}
+	}
 	if len(config.Env) > 0 {
+
 		for k, v := range config.Env {
-			s.Env[k] = v
+			s.Env = append(s.Env, v1.EnvVar{
+				Name:  k,
+				Value: v,
+			})
 		}
 	}
 

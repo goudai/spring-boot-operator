@@ -167,6 +167,7 @@ func (r *SpringBootApplicationReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 					Image:           springBoot.Image,
 					ImagePullPolicy: "IfNotPresent",
 					Ports:           []v1.ContainerPort{{ContainerPort: springBoot.Port}},
+					Env:             springBoot.Env,
 					Resources: v1.ResourceRequirements{
 						Requests: v1.ResourceList{
 							"cpu":    resource.MustParse(springBoot.Resource.Cpu.Request),
