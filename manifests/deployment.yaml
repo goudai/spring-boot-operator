@@ -473,8 +473,8 @@ spec:
           value: ""
         - name: SPRING_BOOT_ENV
           value: ""
-        image: freemanliu/spring-boot-operator-controller:latest
-        imagePullPolicy: Always
+        image: freemanliu/spring-boot-operator-controller:v0.0.5
+        imagePullPolicy: IfNotPresent
         name: manager
         resources:
           limits:
