@@ -140,7 +140,9 @@ func (r *SpringBootApplicationReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 		if springBoot.Resource.Cpu.Limit != "" {
 			limitRlist["cpu"] = resource.MustParse(springBoot.Resource.Cpu.Limit)
 		}
+		ShareProcessNamespace := true
 		podSpec := &v1.PodSpec{
+			ShareProcessNamespace: &ShareProcessNamespace,
 			Affinity: &v1.Affinity{
 				PodAntiAffinity: &v1.PodAntiAffinity{
 					PreferredDuringSchedulingIgnoredDuringExecution: []v1.WeightedPodAffinityTerm{
